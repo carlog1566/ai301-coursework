@@ -1,0 +1,3 @@
+Hi, I'd like to work on this issue. I'm going to first set up the project and trace the current RAG pipeline, especially how `ReviewGenerator` creates and uses the OpenAI client, so I can reproduce the limitation around passing in a fixed mock LLM response for the integration test.
+
+I'll post a follow-up with my environment, the exact steps I used, and what I observed before making any implementation changes.
