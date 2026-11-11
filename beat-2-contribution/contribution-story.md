@@ -122,31 +122,72 @@ Another reason I chose this issue was that it had a clear goal and a relatively 
 
 **Environment Setup**
 
-[What a stranger would need to stand this up: your operating system,
-the relevant versions (language, runtime, package manager, the project
-itself), and how you set the project up. Then the challenges you faced
-and how you solved them, or that none came up.]
+On November 11, 2026, I reproduced the issue on macOS 26.5.2 using Python 3.11.17 and Scrapy 2.19.0. I used my local clone of the All the Places repository and its `uv` Python environment. The project's README provides `uv sync` to install dependencies. Scrapy launched successfully in my environment, so I was able to test whether the Freightliner spider existed.
 
 **Steps to Reproduce**
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Open the All the Places repository and prepare its Python environment using `uv sync`.
+2. Run `uv run scrapy crawl freightliner_au`.
+3. Observe that Scrapy raises `KeyError: 'Spider not found: freightliner_au'`.
+4. Download the Freightliner dealer data:
+
+   `curl -fsS https://www.freightliner.com.au/api/dealerlocator/dealerships -o /tmp/freightliner-dealers.json`
+
+5. Run the following Python code to inspect the downloaded data:
+
+```python
+import json
+from collections import Counter
+
+with open("/tmp/freightliner-dealers.json") as f:
+    dealers = json.load(f)
+
+services = Counter(
+    service["name"]
+    for dealer in dealers
+    for service in dealer["services"]
+)
+
+print("Total dealers:", len(dealers))
+print("Unique IDs:", len({dealer["id"] for dealer in dealers}))
+print("Services:")
+for name, count in services.items():
+    print(f"  {name}: {count}")
+```
 
 **Reproduction Evidence**
 
-- **Commit showing reproduction:** [link to commit in your fork]
-- **Screenshots/logs:** [if applicable]
-- **My findings:** [what you discovered during reproduction; an
-  honest, evidenced cannot-reproduce that led you to re-pick or ask
-  the maintainer belongs here and costs you nothing]
+**Commit showing reproduction:** none
+
+**Screenshots/logs:**
+
+Running `uv run scrapy crawl freightliner_au` produced:
+
+```text
+KeyError: 'Spider not found: freightliner_au'
+```
+
+Inspecting the API returned:
+
+```text
+Total dealers: 61
+Unique IDs: 61
+Services:
+  Repair & Maintenance: 61
+  New Vehicle Sales: 39
+  Parts-Sales: 61
+```
+
+**My findings:**
+
+The Freightliner spider is currently missing from All the Places. However, the dealer API works and provides location information that can be used to implement it. I also found that the API currently returns 61 dealers, while the original GitHub issue lists 58. All 61 records have unique IDs, and the service counts show that some dealerships offer vehicle sales in addition to maintenance and parts.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- **Tool:** repro-check. I used it to evaluate my claim comment and reproduction report against the Freightliner issue.
+- **What it produced:** The tool checked six requirements, including the environment, reproduction steps, evidence, and repository conventions. After revising my report, all six checks passed and the verdict changed to `accept`.
+- **Difficulties:** My first report failed because I described inspecting the API data without including the exact Python command.
+- **What changed:** I added the full verification script and its output so another developer could reproduce the results. I also kept the report local, following the course instructions not to post reproduction evidence to the issue thread.
 
 ---
 
