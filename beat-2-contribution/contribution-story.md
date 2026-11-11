@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: Freightliner Trucks (AU) Spider
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -8,11 +8,10 @@ format criteria grade exactly that. Your course repo link is the whole submissio
 files and no evidence uploads are part of Assignment 5.
 
 **Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
-**Pull Request:** [GitHub PR link, once opened]
+**Student:** Carlo Gabarda
+**GitHub Username:** carlog1566
+**Issue:** https://github.com/alltheplaces/alltheplaces/issues/8514
+**Pull Request:** Not opened yet
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -55,15 +54,13 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Built and tested an issue-scout for open-source issue selection**
 
 I updated my issue-scout to search for beginner-friendly Python issues using my fit profile, search strategy, and rubric. During my first scan, the scout evaluated five issues, accepting four and rejecting one because the task was too broad. Although the scout correctly evaluated the issues, some of the accepted results were not closely related to my preferred Python and backend development work. I kept my rubric unchanged and used the CodePath Issue Selection site to find three more relevant issues, which the scout accepted.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: Installing My Voice Guard and Setting Up Repository Memory**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+I updated my voice guide with rules for claims, questions, and follow-up messages, then installed the voice guard in Claude Code. During testing, the guard successfully blocked a GitHub command without a comment body, and it passed my Freightliner claim message before I posted it. I also updated my issue-scout rubric and used Claude Code to inspect the relevant All the Places spiders so I could document the project's conventions in CLAUDE.local.md. The voice guard worked as expected, and the repository inspection helped me understand where to start without modifying any code yet.
 
 **Unit 7: [one line on the tool work]**
 
@@ -79,24 +76,18 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I used my issue-scout to search for beginner-friendly open-source issues that matched my experience with Python, APIs, and backend development. My initial scan evaluated five issues, accepting four and rejecting one because its scope was too broad. I then used the CodePath Issue Selection site to find three additional issues in the All the Places repository. My scout accepted all three, and I decided to work on Freightliner Trucks #8514 because it involved creating a Python scraper using a JSON API. This fits my experience working with APIs and data processing while giving me an opportunity to learn more about web scraping with Scrapy.
+
+Another reason I chose this issue was that it had a clear goal and a relatively small scope. The repository was active, the issue was labeled `good first issue`, and no one had claimed it when I checked. One limitation of my initial scout was that some accepted issues were unrelated to my preferred development work. I also updated my scope check to `scope-feasible` so issues with reasonable uncertainty would not automatically be rejected. After updating the rubric, Freightliner still received an `accept` verdict.
+
+**Claim comment:** https://github.com/alltheplaces/alltheplaces/issues/8514#issuecomment-6792094412
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- **Tool:** issue-scout. I used my search strategy and rubric to evaluate GitHub issues, then directly graded three issues from the CodePath Issue Selection site.
+- **What it produced:** The initial scan evaluated five issues, accepting four and rejecting one. The scout also accepted Freightliner #8514, including after I updated its scope check.
+- **Difficulties:** Some accepted issues did not closely match my preferred Python and backend development work.
+- **What changed:** I prioritized issues that matched my fit profile and replaced the original scope check with `scope-feasible`, adding difficulty ratings to help compare accepted issues.
 
 ---
 
