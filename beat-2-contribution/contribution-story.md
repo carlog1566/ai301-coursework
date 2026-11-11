@@ -57,8 +57,7 @@ one in the week it belongs to.
 
 **Unit 5: [one line on the tool work]**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I updated my issue-scout to search for beginner-friendly Python issues using my fit profile, search strategy, and rubric. During my first scan, the scout evaluated five issues, accepting four and rejecting one because the task was too broad. Although the scout correctly evaluated the issues, some of the accepted results were not closely related to my preferred Python and backend development work. I kept my rubric unchanged and used the CodePath Issue Selection site to find three more relevant issues, which the scout accepted.
 
 **Unit 6: [one line on the tool work]**
 
