@@ -229,26 +229,62 @@ During the first crawl, six website validation errors appeared because two deale
 
 ---
 
-## Implementation Notes
+## Testing Strategy
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
+To verify my implementation, I compared the behavior before and after adding the Freightliner spider. Before the fix, running `uv run scrapy crawl freightliner_au` produced `KeyError: 'Spider not found: freightliner_au'`. I also downloaded the official Freightliner dealership API response and confirmed that it contained 61 unique dealerships.
 
-**[Date]**
+After implementing the spider, I ran:
 
-[Entry]
+`uv run scrapy runspider locations/spiders/freightliner_au.py -O /tmp/freightliner_au.geojson -L INFO`
 
-**[Date]**
+The crawl successfully exported 161 service records from 61 dealerships, with zero duplicate records and no logged errors. I inspected the exported GeoJSON and confirmed that all 161 references were unique. The records included 39 truck sales, 61 truck repairs, and 61 truck parts locations.
 
-[Entry]
+I also inspected Atchison Trucks to verify that its service records contained the correct coordinates, address, and contact information. Its truck sales, repair, and parts records had different opening hours, confirming that the spider preserved service-specific schedules.
+
+Finally, I ran the repository's required checks:
+
+- `uv run pytest tests/test_item_attributes.py -q` — 3 tests passed, with one dependency deprecation warning.
+- `uv run pre-commit run --files locations/spiders/freightliner_au.py` — All applicable checks passed, including isort, Black, Flake8, and spider naming consistency.
+
+These results confirm that the missing spider was implemented and that its exported data matched the API's dealership and service counts. They do not guarantee that future API changes or maintainer preferences will require no adjustments.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- **Tool:** I used Scrapy, Python scripts, pytest, and pre-commit to test the implementation and inspect its output.
+- **What it produced:** The spider exported 161 records with 161 unique references, and the repository's tests and code-quality checks passed.
+- **Difficulties:** The initial crawl produced six website validation errors because some dealership URLs lacked an HTTP or HTTPS scheme.
+- **What changed:** I added URL normalization, reran the spider, and verified that the errors were resolved. I also saved the before-and-after results in `test_evidence.md` for the ship-gate.
 
+---
+
+## Implementation Notes
+
+**November 11, 2026 — Investigating the API**
+
+I inspected the Freightliner Australia dealership API and confirmed that it returned 61 unique dealerships. Each dealership contained location information, contact details, and services. I noticed that sales, repairs, and parts had their own opening hours, so I decided to create separate records for each service rather than combine them into one record.
+
+**November 11, 2026 — Implementing the spider**
+
+I created `locations/spiders/freightliner_au.py` using `JSONBlobSpider` and the repository's existing parsing helpers. I mapped the three service types to their corresponding truck categories and used dealership and service IDs to generate unique references. I also used `OpeningHours` to convert the API schedules into OpenStreetMap formatting.
+
+**November 11, 2026 — Fixing URL validation errors**
+
+My first crawl exported 161 records but logged six website validation errors. I traced these errors to two dealerships whose website URLs did not include a scheme. I updated the spider to add `https://` when necessary and reran the crawl. The second run completed without errors.
+
+**November 11, 2026 — Validation and commit**
+
+I inspected the exported GeoJSON, confirmed 161 unique references, and verified that service-specific opening hours were preserved. All three brand-validation tests and applicable pre-commit checks passed. I committed the implementation as `840874c3c` with the message `[Freightliner AU] Add spider (61 locations)` and pushed it to my fork on the `add_freightliner_au` branch.
+
+**November 11, 2026 — Plan review and testing evidence**
+
+I used plan-check to evaluate the implementation plan and draft comment. The initial review rejected the package because `plan.md` was missing. After creating the plan and documenting the actual implementation, all seven checks passed. I then created `test_evidence.md` to preserve the reproduction results and test outputs for the ship-gate.
+
+**Toolkit**
+
+- **Tool:** I used ChatGPT to help draft the spider implementation and troubleshoot the crawl, along with Git, Scrapy, and plan-check to implement and validate the contribution.
+- **What it produced:** A working Freightliner spider, an accepted implementation plan, a commit on my feature branch, and documented testing evidence.
+- **Difficulties:** The API included separate services with different schedules, two dealership websites lacked valid URL schemes, and my first plan-check run was missing the plan file.
+- **What changed:** I preserved separate service records, fixed the website URLs, and updated my planning and evidence files based on the feedback. I kept these coursework files separate from the open-source repository.
 ---
 
 ## Pull Request
