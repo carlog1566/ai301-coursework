@@ -66,10 +66,9 @@ I updated my voice guide with rules for claims, questions, and follow-up message
 
 I installed the ship-gate and created a manifest to run the repository's tests, pre-commit checks, and spider crawl before opening my pull request. My first ship-gate attempt failed because my local master branch was outdated, causing unrelated changes to appear in the diff. After updating the branch and explaining my website URL handling, the ship-gate passed all required checks. I successfully opened PR #20501, and the repository's automated scraper bot confirmed that my spider exported 161 records with zero errors.
 
-**Unit 8: [one line on the tool work]**
+**Unit 8: Monitoring My Pull Request and Managing Maintainer Feedback**
 
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+I installed the PR Monitor and created a playbook defining how I would respond to reviews, when to follow up, and when to consider closing a pull request. I based my seven-day waiting period on five recently merged All the Places pull requests and set rules to avoid unnecessary comments. When I ran the monitor on PR #20501, it detected the automated scraper bot's feedback and generated a draft recommending that I wait rather than respond. I reviewed the draft, confirmed that no human maintainer had requested changes, and decided not to post a comment.
 
 ---
 
@@ -281,6 +280,10 @@ I used plan-check to evaluate the implementation plan and draft comment. The ini
 **November 11, 2026 — Pull Request and Automated Testing**
 
 After the ship-gate passed, I opened pull request #20501 against the All the Places master branch. The repository's scraper bot automatically tested my spider and successfully exported 161 records with zero errors. It reported three warnings involving missing NSI category matches and repeated contact information, which are consistent with how the spider represents multiple services at each dealership. I left the implementation unchanged while waiting for a maintainer's review.
+
+**November 11, 2026 — PR Monitoring**
+
+I installed CodePath's PR Monitor and created a playbook with response rules, a seven-day follow-up threshold, nudge etiquette, and walk-away criteria. The monitor detected one automated comment on my pull request and generated a recommendation not to respond because the scraper bot's test succeeded and no human review had been received. I followed the recommendation and left the pull request unchanged while awaiting feedback.
 
 **Toolkit**
 
