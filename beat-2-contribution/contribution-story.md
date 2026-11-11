@@ -62,10 +62,9 @@ I updated my issue-scout to search for beginner-friendly Python issues using my 
 
 I updated my voice guide with rules for claims, questions, and follow-up messages, then installed the voice guard in Claude Code. During testing, the guard successfully blocked a GitHub command without a comment body, and it passed my Freightliner claim message before I posted it. I also updated my issue-scout rubric and used Claude Code to inspect the relevant All the Places spiders so I could document the project's conventions in CLAUDE.local.md. The voice guard worked as expected, and the repository inspection helped me understand where to start without modifying any code yet.
 
-**Unit 7: [one line on the tool work]**
+**Unit 7: Using the Ship-Gate to Validate and Open My Pull Request**
 
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
+I installed the ship-gate and created a manifest to run the repository's tests, pre-commit checks, and spider crawl before opening my pull request. My first ship-gate attempt failed because my local master branch was outdated, causing unrelated changes to appear in the diff. After updating the branch and explaining my website URL handling, the ship-gate passed all required checks. I successfully opened PR #20501, and the repository's automated scraper bot confirmed that my spider exported 161 records with zero errors.
 
 **Unit 8: [one line on the tool work]**
 
@@ -279,37 +278,44 @@ I inspected the exported GeoJSON, confirmed 161 unique references, and verified 
 
 I used plan-check to evaluate the implementation plan and draft comment. The initial review rejected the package because `plan.md` was missing. After creating the plan and documenting the actual implementation, all seven checks passed. I then created `test_evidence.md` to preserve the reproduction results and test outputs for the ship-gate.
 
+**November 11, 2026 — Pull Request and Automated Testing**
+
+After the ship-gate passed, I opened pull request #20501 against the All the Places master branch. The repository's scraper bot automatically tested my spider and successfully exported 161 records with zero errors. It reported three warnings involving missing NSI category matches and repeated contact information, which are consistent with how the spider represents multiple services at each dealership. I left the implementation unchanged while waiting for a maintainer's review.
+
 **Toolkit**
 
 - **Tool:** I used ChatGPT to help draft the spider implementation and troubleshoot the crawl, along with Git, Scrapy, and plan-check to implement and validate the contribution.
 - **What it produced:** A working Freightliner spider, an accepted implementation plan, a commit on my feature branch, and documented testing evidence.
 - **Difficulties:** The API included separate services with different schedules, two dealership websites lacked valid URL schemes, and my first plan-check run was missing the plan file.
 - **What changed:** I preserved separate service records, fixed the website URLs, and updated my planning and evidence files based on the feedback. I kept these coursework files separate from the open-source repository.
+
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when opened]
+**PR Link:** https://github.com/alltheplaces/alltheplaces/pull/20501
 
-**PR Description:** [what the PR says; much of the content above
-adapts into it]
+**PR Description:**
+
+I opened a pull request to add a Freightliner Australia spider to the All the Places repository. The spider retrieves dealership information from the official API and creates separate records for truck sales, repairs, and parts. It also preserves service-specific opening hours, contact information, and unique references.
+
+The spider successfully exported 161 service records from 61 dealerships. In my PR description, I included the reproduction error, the successful crawl results, passing repository checks, and an explanation of why website URL normalization was necessary. I also disclosed how AI assisted with the development process.
+
+The PR references the original issue using `Fixes #8514`.
 
 **Maintainer Feedback:**
 
-- [Date]: [feedback received, or "none yet"; silence is a normal
-  state and costs you nothing]
-- [Date]: [how you addressed it]
+- **November 11, 2026:** The automated scraper bot tested my spider for two minutes and reported a successful crawl with 161 records, zero errors, and three warnings. The warnings involved missing NSI matches for 122 service records and repeated phone numbers and email addresses. These warnings are consistent with the spider producing separate service records that share dealership contact information.
+- **November 11, 2026:** No human maintainer feedback has been received yet. I have not made additional code changes because the bot's test succeeded, and I am awaiting review.
 
-**Status:** [Awaiting review / Iterating / Merged / Closed. The
-status is a fact you record, never a grade: the PR is graded as
-opened.]
+**Status:** Awaiting review
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- **Tool:** I used the ship-gate and Claude Code to validate my contribution and open the pull request. I also reviewed the automated scraper bot's test results on GitHub.
+- **What it produced:** The ship-gate passed all three repository checks and five pr-precheck requirements. My pull request was successfully opened, and the scraper bot independently confirmed that the spider exported 161 records with zero errors.
+- **Difficulties:** My first ship-gate attempt rejected the branch because my local master branch was outdated. Another attempt flagged uncertainty about my website URL normalization. The scraper bot also reported three warnings related to NSI matching and repeated contact information.
+- **What changed:** I updated my local master branch and explained the website URL handling in the PR description. After the ship-gate passed, I opened the PR. Since the scraper bot reported a successful crawl, I am waiting for maintainer feedback before making additional changes.
 
 ---
 
