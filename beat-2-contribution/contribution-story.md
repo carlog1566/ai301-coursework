@@ -95,26 +95,26 @@ Another reason I chose this issue was that it had a clear goal and a relatively 
 
 **Problem Description**
 
-[In your own words, what is broken or missing?]
+The All the Places repository was missing a spider for Freightliner Trucks dealerships in Australia. Without the spider, the project could not automatically collect dealership locations, services, contact information, or opening hours.
 
 **Expected Behavior**
 
-[What should happen?]
+The Freightliner spider should retrieve dealership data from the official API and export valid GeoJSON records with coordinates, addresses, contact information, service categories, and opening hours.
 
 **Current Behavior**
 
-[What actually happens?]
+Before implementation, running `uv run scrapy crawl freightliner_au` produced `KeyError: 'Spider not found: freightliner_au'`. The API was accessible and returned 61 unique dealerships, compared with the 58 listed in the original issue.
 
 **Affected Components**
 
-[Which parts of the codebase are involved?]
+The missing implementation belonged in `locations/spiders/`. The solution uses the existing `JSONBlobSpider`, `DictParser`, `OpeningHours`, and category helpers without modifying shared components.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- **Tool:** I used repro-check, Scrapy, and Python scripts to investigate the missing spider and inspect the API response.
+- **What it produced:** Repro-check accepted my reproduction report, which documented the missing spider error and the 61 dealership records.
+- **Difficulties:** The API returned more locations than the original issue described, and different services had their own opening hours.
+- **What changed:** I used the current API data and chose to preserve separate records for each dealership service.
 
 ---
 
@@ -195,45 +195,37 @@ The Freightliner spider is currently missing from All the Places. However, the d
 
 **Analysis**
 
-[Your analysis of the root cause: what is causing the issue, traced
-to the files and functions involved.]
+The root cause was that All the Places did not have a Freightliner Australia spider. Scrapy could not locate `freightliner_au`, even though the official API was available at `https://www.freightliner.com.au/api/dealerlocator/dealerships`. The repository already had JSON parsing and opening-hours utilities, so the missing functionality could be implemented in a single spider file.
 
 **Proposed Solution**
 
-[High-level description of your fix approach, and what you are
-deliberately NOT changing.]
+I added `locations/spiders/freightliner_au.py` using `JSONBlobSpider`. The spider retrieves dealership information and creates separate records for truck sales, repairs, and parts. It uses dealership IDs and service IDs for unique references, assigns appropriate categories, and preserves service-specific opening hours. I also used the Freightliner Wikidata identifier `Q1420724`.
+
+I kept the implementation limited to the new spider without changing shared pipelines, existing spiders, or repository tests.
 
 **Implementation Plan**
 
-1. [Modify file X to do Y]
-2. [Add or change Z]
-3. [Update tests]
+1. Create `freightliner_au.py` with the official API endpoint and Freightliner brand metadata.
+2. Use the existing parser to extract dealership names, addresses, coordinates, and IDs.
+3. Extract phone, email, and website information from the API's `communications` object.
+4. Create a separate record for each dealership service with a stable reference and appropriate truck category.
+5. Convert service opening hours using the `OpeningHours` helper.
+6. Run the spider and verify the exported locations, categories, unique references, and schedules.
+7. Run the repository's brand-validation tests and pre-commit checks.
+8. Commit only the new spider file.
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+**Deviations**
 
-**Toolkit**
+I completed the implementation before writing the formal plan, so I documented the actual work and changes rather than presenting the plan as if it had been written first.
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
-
----
-
-## Testing Strategy
-
-[What observable checks prove the fix: your reproduction steps re-run
-against the built change (before and after), and the repo's own test
-suite or checks with the outcome shown. "Tests pass" with nothing
-observable named is not a strategy.]
+During the first crawl, six website validation errors appeared because two dealerships had URLs without HTTP or HTTPS schemes. I added URL normalization, reran the spider, and successfully exported 161 service records from 61 dealerships with no crawl errors or duplicate references.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- **Tool:** I used plan-check to review `plan.md` and `plan-comment.md` against Freightliner issue #8514.
+- **What it produced:** The first review rejected the plan package because `plan.md` was missing. After I created the file and added specific evidence, implementation steps, test expectations, and deviations, all seven checks passed with an `accept` verdict.
+- **Difficulties:** My initial plan comment was too general, and the plan-check procedure contained an outdated reference to the Path Review repository.
+- **What changed:** I added the actual API counts, missing-spider error, expected output, risks, and observed test results. I kept the plan comment local as required by Unit 7.
 
 ---
 
