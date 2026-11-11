@@ -326,25 +326,24 @@ The PR references the original issue using `Fixes #8514`.
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+Through this contribution, I gained experience working with Scrapy and understanding how All the Places collects and processes location data. I learned how to use `JSONBlobSpider` and the repository's existing utilities to extract dealership information from a JSON API. I also gained experience handling nested API data, mapping services to different categories, and formatting opening hours. Testing the spider helped me understand how to validate GeoJSON output and use pytest, pre-commit, and automated checks to verify my implementation.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+One challenge was deciding how to handle dealerships offering multiple services with different opening hours. I decided to create separate records for each service so the correct categories and schedules could be preserved. Another challenge occurred when my first crawl produced website URL validation errors because some URLs were missing their HTTP or HTTPS schemes. I fixed this issue by normalizing those URLs and rerunning the spider. I also encountered problems with the ship-gate because my local master branch was outdated. After updating it and explaining my URL handling, the ship-gate passed and I was able to open my pull request.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+If I were to do this again, I would complete my implementation plan before writing the code instead of documenting it afterward. This would help me organize the work and identify potential problems earlier. I would also make sure my local master branch was up to date before starting, since that caused unnecessary problems during the ship-gate checks. Overall, this experience taught me the importance of following repository conventions, testing changes thoroughly, and documenting my decisions when contributing to open-source projects.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
-
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- [All the Places — Freightliner Trucks Issue #8514](https://github.com/alltheplaces/alltheplaces/issues/8514): The original issue describing the missing Freightliner Australia spider and its expected categories.
+- [Freightliner Australia Dealership API](https://www.freightliner.com.au/api/dealerlocator/dealerships): The source of the dealership locations, contact information, services, and opening hours.
+- [All the Places README](https://github.com/alltheplaces/alltheplaces/blob/master/README.md): Helped me set up the repository and its Python environment.
+- [All the Places AGENTS.md](https://github.com/alltheplaces/alltheplaces/blob/master/AGENTS.md): Provided guidance on spider conventions, shared utilities, and testing requirements.
+- [All the Places Pull Request Guide](https://github.com/alltheplaces/alltheplaces/blob/master/docs/PULL_REQUEST.md): Helped me follow the project's expectations for submitting a new spider.
+- [CodePath Unit 7 Starter](https://github.com/codepath/ai301-unit7-starter): Provided the ship-gate used to validate my contribution before opening the pull request.
+- [CodePath Unit 8 Starter](https://github.com/codepath/ai301-unit8-starter): Provided the PR Monitor used to evaluate feedback and decide when to respond.
